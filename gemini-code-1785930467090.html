@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ms Lê Hằng English - Music & Artists Practice Test</title>
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+  :root {
+    --primary-pink: #FF80BF;
+    --primary-pink-dark: #FF52A3;
+    --pastel-bg: #FFF0F6;
+    --pastel-card: #FFFFFF;
+    --pastel-purple: #D8B4FE;
+    --pastel-green: #00D26A;
+    --pastel-red: #FF4757;
+    --pastel-yellow: #FDCB6E;
+    --text-color: #2D3436;
+    --border-radius: 18px;
+    --box-shadow-3d: 0 6px 0px rgba(0,0,0,0.12);
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Nunito', sans-serif;
+  }
+
+  body {
+    background: linear-gradient(-45deg, #FFB6C1, #FFC0CB, #E6E6FA, #FFF0F5, #FFD1DC);
+    background-size: 400% 400%;
+    animation: gradientShift 12s ease infinite;
+    background-image: 
+      radial-gradient(circle, rgba(255,128,191,0.15) 20%, transparent 20%),
+      url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 100 100'><text x='10' y='30' font-size='22'>🎤</text><text x='60' y='30' font-size='20'>🎸</text><text x='30' y='80' font-size='22'>🎶</text><text x='75' y='80' font-size='20'>⭐</text></svg>");
+    color: var(--text-color);
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  header {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 4px solid #FFD1DC;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    z-index: 100;
+  }
+
+  .header-left {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .header-title h1 {
+    font-size: 1.2rem;
+    color: var(--primary-pink-dark);
+    font-weight: 900;
+  }
+
+  .passage-tabs {
+    display: flex;
+    gap: 6px;
+  }
+
+  .tab-btn {
+    background: #FFF0F6;
+    border: 2px solid var(--primary-pink);
+    color: var(--primary-pink-dark);
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-weight: 800;
+    font-size: 0.78rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 2px 0 var(--primary-pink);
+  }
+
+  .tab-btn:hover {
+    background: var(--primary-pink);
+    color: white;
+  }
+
+  .tab-btn.active {
+    background: var(--primary-pink-dark);
+    color: white;
+    border-color: var(--primary-pink-dark);
+    box-shadow: 0 2px 0 #D63384;
+  }
+
+  .timer-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #FFF;
+    padding: 6px 16px;
+    border-radius: 50px;
+    border: 3px solid var(--primary-pink);
+    box-shadow: var(--box-shadow-3d);
+  }
+
+  .timer-display {
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: var(--primary-pink-dark);
+    min-width: 65px;
+    text-align: center;
+  }
+
+  .btn-timer {
+    background: var(--primary-pink);
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 3px 0 var(--primary-pink-dark);
+  }
+
+  .btn-timer:hover { transform: translateY(-2px); }
+
+  .progress-container {
+    width: 20%;
+    background: #E9ECEF;
+    height: 16px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 2px solid #DEE2E6;
+  }
+
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #FF80BF, #00D26A);
+    transition: width 0.4s ease;
+    border-radius: 10px;
+  }
+
+  .main-container {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+    padding: 15px;
+    gap: 15px;
+  }
+
+  .pane {
+    flex: 1;
+    width: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(8px);
+    border-radius: var(--border-radius);
+    padding: 20px;
+    overflow-y: auto;
+    border: 3px solid #FFF;
+    box-shadow: 0 8px 24px rgba(149, 157, 165, 0.15);
+  }
+
+  .passage-content, .exercise-content {
+    display: none;
+  }
+
+  .passage-content.active, .exercise-content.active {
+    display: block;
+  }
+
+  .passage-title {
+    color: var(--primary-pink-dark);
+    font-size: 1.15rem;
+    margin-bottom: 15px;
+    text-align: center;
+    font-weight: 900;
+    border-bottom: 2px dashed var(--primary-pink);
+    padding-bottom: 8px;
+  }
+
+  .paragraph-box {
+    background: #FFF;
+    padding: 15px;
+    border-radius: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #FFE4E1;
+    line-height: 1.7;
+    font-size: 0.96rem;
+  }
+
+  .btn-translate {
+    background: #FFF3BF;
+    color: #D9480F;
+    border: 2px solid #FCC419;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 8px;
+    display: inline-block;
+  }
+
+  .translation-text {
+    display: none;
+    margin-top: 10px;
+    padding: 10px;
+    background: #FFF9DB;
+    border-left: 4px solid #FCC419;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    color: #495057;
+  }
+
+  ::selection {
+    background: #D8B4FE;
+    color: #FFF;
+  }
+
+  .highlighted {
+    background-color: #D8B4FE !important;
+    color: white !important;
+    border-radius: 3px;
+    padding: 0 2px;
+  }
+
+  .question-card {
+    background: #FFF;
+    border-radius: 15px;
+    padding: 16px;
+    margin-bottom: 20px;
+    border: 3px solid #F1F3F5;
+    box-shadow: var(--box-shadow-3d);
+  }
+
+  .question-text {
+    font-weight: 800;
+    margin-bottom: 12px;
+    font-size: 0.95rem;
+    color: #2D3436;
+  }
+
+  .options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .option-btn {
+    background: #F8F9FA;
+    border: 2px solid #E9ECEF;
+    padding: 10px 14px;
+    border-radius: 12px;
+    text-align: left;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s;
+    box-shadow: 0 3px 0 #DEE2E6;
+    font-size: 0.92rem;
+  }
+
+  .option-btn:hover {
+    background: #FFF0F6;
+    border-color: var(--primary-pink);
+  }
+
+  .option-btn.correct {
+    background: var(--pastel-green) !important;
+    color: white !important;
+    border-color: #00B050 !important;
+    box-shadow: 0 3px 0 #00B050 !important;
+  }
+
+  .option-btn.wrong {
+    background: var(--pastel-red) !important;
+    color: white !important;
+    border-color: #D63031 !important;
+    box-shadow: 0 3px 0 #D63031 !important;
+    animation: shake 0.4s;
+  }
+
+  .explanation-box {
+    display: none;
+    margin-top: 12px;
+    padding: 14px;
+    background: #F0FDF4;
+    border: 2px solid #86EFAC;
+    border-radius: 12px;
+    font-size: 0.88rem;
+    line-height: 1.6;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .exp-step {
+    margin-bottom: 8px;
+  }
+
+  .exp-step:last-child {
+    margin-bottom: 0;
+  }
+
+  .exp-step strong {
+    color: #15803D;
+    font-weight: 800;
+  }
+
+  .locate-btn {
+    background: #E0E7FF;
+    border: 1px solid #818CF8;
+    color: #4338CA;
+    padding: 4px 8px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 700;
+    font-size: 0.78rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 6px;
+  }
+
+  .glossary-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .glossary-table th, .glossary-table td {
+    padding: 8px 10px;
+    text-align: left;
+    border-bottom: 1px solid #F1F3F5;
+    font-size: 0.85rem;
+  }
+
+  .glossary-table th {
+    background: var(--primary-pink);
+    color: white;
+    font-weight: 800;
+  }
+
+  .submit-container { text-align: center; margin: 20px 0; }
+
+  .btn-submit {
+    background: linear-gradient(135deg, #00D26A, #00B050);
+    color: white;
+    border: none;
+    padding: 12px 35px;
+    font-size: 1.1rem;
+    font-weight: 900;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 5px 0 #008037;
+    transition: all 0.2s;
+  }
+
+  .btn-submit:hover { transform: translateY(-2px); }
+
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(0,0,0,0.6);
+    backdrop-filter: blur(5px);
+    z-index: 1000;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .modal-card {
+    background: white;
+    padding: 25px;
+    border-radius: 25px;
+    text-align: center;
+    max-width: 450px;
+    width: 90%;
+    border: 5px solid var(--primary-pink);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-6px); }
+    40%, 80% { transform: translateX(6px); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .target-highlight { animation: flashHighlight 2s ease; }
+
+  @keyframes flashHighlight {
+    0%, 100% { background: transparent; }
+    50% { background: #FDE047; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-left">
+    <div class="header-title">
+      <h1>Ms Lê Hằng English</h1>
+    </div>
+    <div class="passage-tabs">
+      <button class="tab-btn active" onclick="switchPassage(1)">Ex 4: Taylor Swift 🎤</button>
+      <button class="tab-btn" onclick="switchPassage(2)">Ex 5: Vietnam Idol 🏆</button>
+      <button class="tab-btn" onclick="switchPassage(3)">Ex 6: The Voice 🎙️</button>
+      <button class="tab-btn" onclick="switchPassage(4)">Ex 7: Social Media 📱</button>
+    </div>
+  </div>
+
+  <div class="timer-container">
+    <span class="timer-display" id="timerDisplay">20:00</span>
+    <button class="btn-timer" id="timerToggleBtn" onclick="toggleTimer()">BẮT ĐẦU</button>
+  </div>
+
+  <div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+  </div>
+</header>
+
+<div class="main-container">
+  <!-- LEFT PANE -->
+  <div class="pane" id="leftPane">
+    
+    <!-- PASSAGE 1: EXERCISE 4 - TAYLOR SWIFT -->
+    <div class="passage-content active" id="passage1">
+      <h2 class="passage-title">READING PASSAGE: TAYLOR SWIFT</h2>
+      <div class="paragraph-box" id="p_ex4">
+        <span id="s_ex4_1">Taylor Swift is a famous American singer and songwriter.</span>
+        <span id="s_ex4_2">She was born on December 13, 1989, in Pennsylvania.</span>
+        <span id="s_ex4_3"><strong>(1) _______</strong> and moved to Nashville, Tennessee, when she was 14 to pursue a career in country music.</span>
+        <span id="s_ex4_4"><strong>(2) _______</strong>, titled "Taylor Swift", included 11 tracks, was released in 2006, and it made her very popular.</span>
+        <span id="s_ex4_5">Over the years, she has released many hit songs, such as "Love Story," "You Belong with Me," and "Shake It Off."</span>
+        <br><br>
+        <span id="s_ex4_6"><strong>(3) _______</strong> about her personal experiences, especially about love and relationships.</span>
+        <span id="s_ex4_7">Her lyrics are relatable to many people, and her music has won many awards, including Grammy Awards.</span>
+        <span id="s_ex4_8">Taylor Swift began her career as a country singer, <strong>(4) _______</strong>.</span>
+        <span id="s_ex4_9">She is also known for her charity work, helping people in need and standing up for important causes.</span>
+        <br><br>
+        <span id="s_ex4_10">Taylor has millions of fans around the world, and her concerts are always sold out.</span>
+        <span id="s_ex4_11">She is also very active on social media, where she connects with her fans.</span>
+        <span id="s_ex4_12">In addition to her music, Taylor has appeared in movies and is a successful businesswoman.</span>
+        <span id="s_ex4_13">She has launched her own perfume line and worked with big brands.</span>
+        <span id="s_ex4_14">Taylor Swift is one of the best-selling music artists of all time and <strong>(5) _______</strong> with her talent and hard work.</span>
+        
+        <div>
+          <button class="btn-translate" onclick="toggleTranslation('t_ex4')">Mở dịch toàn bài 🌟</button>
+          <div class="translation-text" id="t_ex4">Taylor Swift là một ca sĩ và nhạc sĩ người Mỹ nổi tiếng. Cô sinh ngày 13 tháng 12 năm 1989 tại Pennsylvania. Cô bắt đầu hát từ khi còn nhỏ và chuyển đến Nashville, Tennessee khi 14 tuổi để theo đuổi sự nghiệp nhạc đồng quê. Album đầu tay của cô mang tên "Taylor Swift", gồm 11 bài hát, phát hành năm 2006 và khiến cô trở nên rất nổi tiếng. Qua nhiều năm, cô đã phát hành nhiều bài hát hit như "Love Story", "You Belong with Me" và "Shake It Off".<br><br>Taylor nổi tiếng vì viết những bài hát về trải nghiệm cá nhân, đặc biệt là về tình yêu và các mối quan hệ. Lời bài hát của cô gần gũi với nhiều người và âm nhạc của cô đã giành nhiều giải thưởng, bao gồm giải Grammy. Taylor Swift bắt đầu sự nghiệp là một ca sĩ nhạc đồng quê, nhưng sau đó cô chuyển sang nhạc pop. Cô cũng nổi tiếng với công việc từ thiện, giúp đỡ những người gặp khó khăn và lên tiếng vì các mục tiêu quan trọng.<br><br>Taylor có hàng triệu người hâm mộ trên thế giới và các buổi hòa nhạc của cô luôn cháy vé. Cô cũng rất tích cực trên mạng xã hội, nơi cô kết nối với người hâm mộ. Bên cạnh âm nhạc, Taylor đã xuất hiện trong các bộ phim và là một nữ doanh nhân thành công. Cô đã ra mắt dòng nước hoa riêng và làm việc với các thương hiệu lớn. Taylor Swift là một trong những nghệ sĩ âm nhạc bán chạy nhất mọi thời đại và tiếp tục truyền cảm hứng cho nhiều người bằng tài năng và sự chăm chỉ của mình.</div>
+        </div>
+      </div>
+
+      <h3 class="passage-title" style="font-size: 1rem; margin-top: 20px;">📖 Glossary (Bảng từ vựng Exercise 4)</h3>
+      <table class="glossary-table">
+        <thead>
+          <tr><th>Từ vựng</th><th>Loại từ</th><th>Nghĩa tiếng Việt</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Pursue</td><td>v</td><td>Theo đuổi (sự nghiệp)</td></tr>
+          <tr><td>Relatable</td><td>adj</td><td>Gần gũi, dễ đồng cảm</td></tr>
+          <tr><td>Switch to</td><td>phr v</td><td>Chuyển sang (thể loại khác)</td></tr>
+          <tr><td>Inspire</td><td>v</td><td>Truyền cảm hứng</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PASSAGE 2: EXERCISE 5 - VIETNAM IDOL -->
+    <div class="passage-content" id="passage2">
+      <h2 class="passage-title">READING PASSAGE: VIETNAM IDOL</h2>
+      <div class="paragraph-box" id="p_ex5">
+        <span id="s_ex5_1">In Vietnam, there is a very famous music show called "Vietnam Idol".</span>
+        <span id="s_ex5_2">It is a singing <strong>(1) _______</strong> where many talented singers come <strong>(2) _______</strong> their skills.</span>
+        <span id="s_ex5_3">The show has been on TV for many years and is loved by people of all ages.</span>
+        <span id="s_ex5_4">Young singers compete in many rounds, singing different songs.</span>
+        <span id="s_ex5_5">The judges, who are famous singers and musicians, give them scores and advice.</span>
+        <span id="s_ex5_6">The audience also plays a big role.</span>
+        <span id="s_ex5_7">They can vote for their favorite singers through messages and online.</span>
+        <br><br>
+        <span id="s_ex5_8">The winner of Vietnam Idol gets a big prize, which includes money and a chance to make their own album, <strong>(3) _______</strong> many famous Vietnamese singers chose to start their careers on this show.</span>
+        <span id="s_ex5_9">The show is full of excitement, with beautiful <strong>(4) _______</strong> and touching stories of the contestants.</span>
+        <span id="s_ex5_10">People enjoy watching it with their families and friends, cheering for their favorite singers.</span>
+        <span id="s_ex5_11">Vietnam Idol is not just a show; it is a big event that brings people together and makes everyone feel happy and proud <strong>(5) _______</strong> the new talents in their country.</span>
+        
+        <div>
+          <button class="btn-translate" onclick="toggleTranslation('t_ex5')">Mở dịch toàn bài 🌟</button>
+          <div class="translation-text" id="t_ex5">Ở Việt Nam, có một chương trình âm nhạc rất nổi tiếng tên là "Vietnam Idol". Đây là một cuộc thi hát, nơi nhiều ca sĩ tài năng đến để thể hiện kỹ năng của mình. Chương trình đã phát sóng trên truyền hình nhiều năm và được mọi lứa tuổi yêu thích. Các ca sĩ trẻ tranh tài qua nhiều vòng, hát những bài hát khác nhau. Ban giám khảo, gồm những ca sĩ và nhạc sĩ nổi tiếng, đưa ra điểm số và lời khuyên cho họ. Khán giả cũng đóng một vai trò lớn. Họ có thể bình chọn cho ca sĩ yêu thích qua tin nhắn và trực tuyến.<br><br>Người chiến thắng Vietnam Idol nhận được giải thưởng lớn, bao gồm tiền mặt và cơ hội ra album riêng, vì vậy nhiều ca sĩ Việt Nam nổi tiếng đã chọn bắt đầu sự nghiệp từ chương trình này. Chương trình tràn ngập sự hào hứng, với những màn trình diễn đẹp mắt và câu chuyện cảm động của các thí sinh. Mọi người thích xem chương trình cùng gia đình và bạn bè, cổ vũ cho ca sĩ yêu thích của mình. Vietnam Idol không chỉ là một chương trình; đó là một sự kiện lớn kết nối mọi người lại với nhau và khiến ai cũng cảm thấy hạnh phúc và tự hào về những tài năng mới của đất nước.</div>
+        </div>
+      </div>
+
+      <h3 class="passage-title" style="font-size: 1rem; margin-top: 20px;">📖 Glossary (Bảng từ vựng Exercise 5)</h3>
+      <table class="glossary-table">
+        <thead>
+          <tr><th>Từ vựng</th><th>Loại từ</th><th>Nghĩa tiếng Việt</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Competition</td><td>n</td><td>Cuộc thi đấu</td></tr>
+          <tr><td>Contestant</td><td>n</td><td>Thí sinh dự thi</td></tr>
+          <tr><td>Performance</td><td>n</td><td>Màn trình diễn</td></tr>
+          <tr><td>Proud of</td><td>adj phr</td><td>Tự hào về</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PASSAGE 3: EXERCISE 6 - THE VOICE OF VIETNAM -->
+    <div class="passage-content" id="passage3">
+      <h2 class="passage-title">READING PASSAGE: THE VOICE OF VIETNAM</h2>
+      <div class="paragraph-box" id="p_ex6">
+        <span id="s_ex6_1">"The Voice of Vietnam" is a popular music competition show in the country.</span>
+        <span id="s_ex6_2">It features talented singers from across Vietnam who showcase their vocal abilities.</span>
+        <span id="s_ex6_3">The show has multiple rounds where the contestants perform different songs.</span>
+        <span id="s_ex6_4">The unique aspect of "The Voice of Vietnam" is that the four <u>celebrity</u> coaches, who are established singers, listen to the performances with their backs turned.</span>
+        <span id="s_ex6_5">If a coach likes a contestant's voice, they press a button to turn around and try to get that singer on their team.</span>
+        <span id="s_ex6_6">This creates an exciting dynamic as the coaches compete to mentor the best vocal talents.</span>
+        <br><br>
+        <span id="s_ex6_7">Additionally, the audience need to vote for <u>their</u> favorite performers, further contributing to the interactive and engaging nature of the program.</span>
+        <span id="s_ex6_8">The focus on the singers' voices rather than their appearances sets this show apart.</span>
+        <span id="s_ex6_9">Many contestants who have participated in "The Voice of Vietnam" have gone on to achieve fame and success in the music industry.</span>
+        <span id="s_ex6_10">The show also features special episodes where the singers collaborate with their coaches on duets, providing unique and memorable performances.</span>
+        <span id="s_ex6_11">Therefore, "The Voice of Vietnam" has become an integral part of the country's television and music culture.</span>
+        <span id="s_ex6_12">Families and friends often gather to watch the show, captivated by the amazing vocal talents on display and the excitement of the competition.</span>
+        <span id="s_ex6_13">The program brings joy and entertainment to viewers across Vietnam.</span>
+        
+        <div>
+          <button class="btn-translate" onclick="toggleTranslation('t_ex6')">Mở dịch toàn bài 🌟</button>
+          <div class="translation-text" id="t_ex6">"Giọng hát Việt" (The Voice of Vietnam) là một chương trình cuộc thi âm nhạc phổ biến trong nước. Chương trình quy tụ các ca sĩ tài năng từ khắp Việt Nam, những người thể hiện khả năng thanh nhạc của mình. Chương trình gồm nhiều vòng thi, nơi các thí sinh thể hiện những bài hát khác nhau. Điểm độc đáo của "Giọng hát Việt" là bốn huấn luyện viên nổi tiếng, những ca sĩ đã thành danh, lắng nghe các màn trình diễn trong tư thế quay lưng lại. Nếu huấn luyện viên thích giọng hát của thí sinh, họ nhấn nút để quay lại và cố gắng đưa ca sĩ đó về đội mình. Điều này tạo nên sự kịch tính hào hứng khi các huấn luyện viên cạnh tranh để hướng dẫn những tài năng thanh nhạc xuất sắc nhất.<br><br>Ngoài ra, khán giả cần bình chọn cho các thí sinh yêu thích của họ, góp phần tăng thêm tính tương tác và hấp dẫn của chương trình. Việc tập trung vào giọng hát của ca sĩ thay vì ngoại hình chính là điểm làm nên sự đặc biệt của chương trình này. Nhiều thí sinh từng tham gia "Giọng hát Việt" đã gặt hái được tiếng tăm và thành công trong ngành âm nhạc. Chương trình cũng có các tập đặc biệt, nơi các ca sĩ kết hợp với huấn luyện viên của họ trong các bản song ca, mang đến những màn trình diễn độc đáo và đáng nhớ. Vì vậy, "Giọng hát Việt" đã trở thành một phần không thể thiếu trong văn hóa truyền hình và âm nhạc của đất nước. Gia đình và bạn bè thường quây quần xem chương trình, bị cuốn hút bởi những tài năng thanh nhạc tuyệt vời và sự hào hứng của cuộc thi. Chương trình mang lại niềm vui và sự giải trí cho khán giả trên khắp Việt Nam.</div>
+        </div>
+      </div>
+
+      <h3 class="passage-title" style="font-size: 1rem; margin-top: 20px;">📖 Glossary (Bảng từ vựng Exercise 6)</h3>
+      <table class="glossary-table">
+        <thead>
+          <tr><th>Từ vựng</th><th>Loại từ</th><th>Nghĩa tiếng Việt</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Showcase</td><td>v</td><td>Phô diễn, thể hiện</td></tr>
+          <tr><td>Celebrity</td><td>n / adj</td><td>Người nổi tiếng (= famous person)</td></tr>
+          <tr><td>Set apart</td><td>phr v</td><td>Tạo nên sự khác biệt</td></tr>
+          <tr><td>Integral</td><td>adj</td><td>Thiết yếu, không thể thiếu</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PASSAGE 4: EXERCISE 7 - MUSIC ON SOCIAL MEDIA -->
+    <div class="passage-content" id="passage4">
+      <h2 class="passage-title">READING PASSAGE: MUSIC ON SOCIAL MEDIA</h2>
+      <div class="paragraph-box" id="p_ex7">
+        <span id="s_ex7_1">Music on social media has changed how artists and fans interact.</span>
+        <span id="s_ex7_2">Platforms like TikTok, Instagram, and YouTube help musicians reach people worldwide easily.</span>
+        <span id="s_ex7_3">Artists can share short videos, live performances, and behind-the-scenes content, creating personal <u>connections</u> with fans in real-time.</span>
+        <br><br>
+        <span id="s_ex7_4">Social media can also make songs or performances go <u>viral</u>, making unknown artists famous quickly.</span>
+        <span id="s_ex7_5">This accessibility is crucial for independent musicians because it helps them distribute their music directly to listeners, which avoids traditional gatekeepers like record labels and radio stations.</span>
+        <span id="s_ex7_6">They can grow <u>their</u> fan base organically and develop dedicated followers.</span>
+        <br><br>
+        <span id="s_ex7_7">Social media challenges and trends centered around music, such as dance routines or lip-sync battles, encourage users to be creative and active participants in the music experience.</span>
+        <span id="s_ex7_8">For fans, social media provides a platform to find new music, share favorite tracks, and even talk directly with admired artists.</span>
+        <br><br>
+        <span id="s_ex7_9">However, social media can be challenging for artists as they need to maintain an active online presence.</span>
+        <span id="s_ex7_10">Balancing creativity with constant content creation is a new reality for musicians today.</span>
+        <span id="s_ex7_11">Despite these challenges, music on social media has made the industry more interactive, inclusive, and fast-paced than ever before.</span>
+        
+        <div>
+          <button class="btn-translate" onclick="toggleTranslation('t_ex7')">Mở dịch toàn bài 🌟</button>
+          <div class="translation-text" id="t_ex7">Âm nhạc trên mạng xã hội đã thay đổi cách các nghệ sĩ và người hâm mộ tương tác với nhau. Các nền tảng như TikTok, Instagram và YouTube giúp các nhạc sĩ tiếp cận mọi người trên toàn thế giới một cách dễ dàng. Nghệ sĩ có thể chia sẻ các video ngắn, các buổi biểu diễn trực tiếp và nội dung hậu trường, tạo nên sự kết nối cá nhân với người hâm mộ theo thời gian thực.<br><br>Mạng xã hội cũng có thể khiến các bài hát hoặc màn trình diễn trở nên lan truyền nhanh chóng (go viral), giúp các nghệ sĩ vô danh trở nên nổi tiếng một cách nhanh chóng. Khả năng tiếp cận này rất quan trọng đối với các nhạc sĩ độc lập vì nó giúp họ phân phối âm nhạc trực tiếp đến người nghe, tránh được các bên trung gian truyền thống như các hãng đĩa và đài phát thanh. Họ có thể phát triển lượng người hâm mộ của mình một cách tự nhiên và xây dựng lượng người theo dõi trung thành.<br><br>Các thử thách và xu hướng trên mạng xã hội xoay quanh âm nhạc, như các điệu nhảy hay các cuộc thi hát nhép, khuyến khích người dùng sáng tạo và trở thành những người tham gia tích cực vào trải nghiệm âm nhạc. Đối với người hâm mộ, mạng xã hội cung cấp một nền tảng để tìm kiếm âm nhạc mới, chia sẻ các bài hát yêu thích và thậm chí trò chuyện trực tiếp với những nghệ sĩ mà họ ngưỡng mộ.<br><br>Tuy nhiên, mạng xã hội cũng có thể là một thách thức đối với các nghệ sĩ vì họ cần duy trì sự hiện diện trực tuyến tích cực. Cân bằng giữa sự sáng tạo và việc sáng tạo nội dung liên tục là một thực tế mới đối với các nhạc sĩ ngày nay. Bất chấp những thách thức này, âm nhạc trên mạng xã hội đã làm cho ngành công nghiệp này trở nên tương tác hơn, bao quát hơn và có nhịp độ nhanh hơn bao giờ hết.</div>
+        </div>
+      </div>
+
+      <h3 class="passage-title" style="font-size: 1rem; margin-top: 20px;">📖 Glossary (Bảng từ vựng Exercise 7)</h3>
+      <table class="glossary-table">
+        <thead>
+          <tr><th>Từ vựng</th><th>Loại từ</th><th>Nghĩa tiếng Việt</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Connections</td><td>n</td><td>Mối quan hệ, sự kết nối (= relations)</td></tr>
+          <tr><td>Go viral</td><td>v phr</td><td>Lan truyền nhanh (Opp: unnoticed)</td></tr>
+          <tr><td>Gatekeeper</td><td>n</td><td>Bên kiểm duyệt/trung gian</td></tr>
+          <tr><td>Organically</td><td>adv</td><td>Tự nhiên, không khiên cưỡng</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
+  <!-- RIGHT PANE -->
+  <div class="pane" id="rightPane">
+    
+    <!-- EXERCISE 4 QUESTIONS -->
+    <div class="exercise-content active" id="exercise1">
+      <h2 class="passage-title">✏️ BÀI TẬP: EXERCISE 4 (CLOZE TEXT - TAYLOR SWIFT)</h2>
+
+      <!-- Q1 -->
+      <div class="question-card" id="qCard_ex4_1">
+        <div class="question-text">Question 1. (1) _______ and moved to Nashville, Tennessee...</div>
+        <div class="options-grid" id="q_ex4_1_options">
+          <button class="option-btn" onclick="checkMCQ('ex4_1', this, false)">A. Taylor started to singing at a young age</button>
+          <button class="option-btn" onclick="checkMCQ('ex4_1', this, false)">B. Taylor started to sing with a young age</button>
+          <button class="option-btn" onclick="checkMCQ('ex4_1', this, true)">C. Taylor started singing at a young age</button>
+          <button class="option-btn" onclick="checkMCQ('ex4_1', this, false)">D. Taylor started to singing with a young age</button>
+        </div>
+        <div class="explanation-box" id="exp_ex4_1">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> "(1) _______ và đã chuyển đến Nashville, Tennessee..."</div>
+          <div class="exp-step"><strong>2. Phân tích cấu trúc:</strong> Động từ "start" có thể đi với V-ing (start singing) hoặc to-V (start to sing). Giới từ đi với độ tuổi bắt buộc là "at a young age" (ở độ tuổi còn trẻ).</div>
+          <div class="exp-step"><strong>3. Tại sao chọn C?</strong> "Taylor started singing at a young age" vừa dùng đúng cấu trúc "start V-ing" vừa dùng đúng giới từ "at a young age".</div>
+          <div class="exp-step"><strong>4. Tại sao A, B, D sai?</strong> A & D sai cấu trúc "started to singing" (sau 'to' phải là V-bare); B & D dùng sai giới từ "with a young age". <br><button class="locate-btn" onclick="scrollToElement('s_ex4_3')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="question-card" id="qCard_ex4_2">
+        <div class="question-text">Question 2. (2) _______, titled "Taylor Swift", included 11 tracks...</div>
+        <div class="options-grid" id="q_ex4_2_options">
+          <button class="option-btn" onclick="checkMCQ('ex4_2', this, true)">A. Her first album</button>
+          <button class="option-btn" onclick="checkMCQ('ex4_2', this, false)">B. His first song</button>
+          <button class="option-btn" onclick="checkMCQ('ex4_2', this, false)">C. His first album</button>
+          <button class="option-btn" onclick="checkMCQ('ex4_2', this, false)">D. Her first song</button>
+        </div>
+        <div class="explanation-box" id="exp_ex4_2">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> "(2) _______, mang tên 'Taylor Swift', bao gồm 11 bài hát..."</div>
+          <div class="exp-step"><strong>2. Phân tích ngữ cảnh:</strong> Taylor Swift là nữ nên dùng tính từ sở hữu "Her". Sản phẩm chứa 11 bài hát (11 tracks) là một "album" chứ không phải 1 bài hát ("song").</div>
+          <div class="exp-step"><strong>3. Tại sao chọn A?</strong> "Her first album" vừa đảm bảo tính từ sở hữu 'Her' vừa đúng nghĩa danh từ 'album' chứa 11 ca khúc.</div>
+          <div class="exp-step"><strong>4. Tại sao B, C, D sai?</strong> B & C dùng sai đại từ sở hữu 'His'; D dùng 'song' (1 bài hát không thể gồm 11 tracks). <br><button class="locate-btn" onclick="scrollToElement('s_ex4_4')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="question-card" id="qCard_ex4_3">
+        <div class="question-text">Question 3. (3) _______ about her personal experiences, especially about love...</div>
+        <div class="options-grid" id="q_ex4_3_options">
+          <button class="option-btn" onclick="checkMCQ('ex4_3', this, false)">A. Taylor is famous because writing songs</button>
+          <button class="option-btn" onclick="checkMCQ('ex4_3', this, true)">B. Taylor is known for writing songs</button>
+          <button class="option-btn" onclick="checkMCQ('ex4_3', this, false)">C. Taylor is known with writing songs</button>
+          <button class="option-btn" onclick="checkMCQ('ex4_3', this, false)">D. Taylor is famous with writing songs</button>
+        </div>
+        <div class="explanation-box" id="exp_ex4_3">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> "(3) _______ về những trải nghiệm cá nhân của cô ấy, đặc biệt là tình yêu..."</div>
+          <div class="exp-step"><strong>2. Phân tích cấu trúc:</strong> Cấu trúc nổi tiếng về điều gì: "be known for + V-ing/N" hoặc "be famous for + V-ing/N".</div>
+          <div class="exp-step"><strong>3. Tại sao chọn B?</strong> "Taylor is known for writing songs" dùng đúng cấu trúc "be known for + V-ing".</div>
+          <div class="exp-step"><strong>4. Tại sao A, C, D sai?</strong> A dùng 'because' sau đó là V-ing (because phải + mệnh đề); C & D dùng sai giới từ 'with' thay vì 'for'. <br><button class="locate-btn" onclick="scrollToElement('s_ex4_6')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="question-card" id="qCard_ex4_4">
+        <div class="question-text">Question 4. Taylor Swift began her career as a country singer, (4) _______.</div>
+        <div class="options-grid" id="q_ex4_4_options">
+          <button class="option-btn" onclick="checkMCQ('ex4_4', this, false)">A. for later she switched off pop music</button>
+          <button class="option-btn" onclick="checkMCQ('ex4_4', this, false)">B. and later she switched off pop music</button>
+          <button class="option-btn" onclick="checkMCQ('ex4_4', this, false)">C. so later she switched to pop music</button>
+          <button class="option-btn" onclick="checkMCQ('ex4_4', this, true)">D. but later she switched to pop music</button>
+        </div>
+        <div class="explanation-box" id="exp_ex4_4">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> "Taylor Swift bắt đầu sự nghiệp là một ca sĩ nhạc đồng quê, (4) _______."</div>
+          <div class="exp-step"><strong>2. Phân tích ý nghĩa & cụm động từ:</strong> Thể hiện sự đối lập giữa điểm bắt đầu (country) và định hướng sau này (pop) -> Dùng liên từ "but". Cụm động từ chuyển sang dòng nhạc khác là "switch to + N".</div>
+          <div class="exp-step"><strong>3. Tại sao chọn D?</strong> "but later she switched to pop music" vừa đảm bảo liên từ 'but' chỉ sự đối lập vừa đúng phrasal verb 'switch to'.</div>
+          <div class="exp-step"><strong>4. Tại sao A, B, C sai?</strong> A & B dùng 'switch off' (tắt thiết bị); C dùng liên từ 'so' không thể hiện được sự đối lập hai dòng nhạc. <br><button class="locate-btn" onclick="scrollToElement('s_ex4_8')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="question-card" id="qCard_ex4_5">
+        <div class="question-text">Question 5. ...one of the best-selling music artists of all time and (5) _______ with her talent and hard work.</div>
+        <div class="options-grid" id="q_ex4_5_options">
+          <button class="option-btn" onclick="checkMCQ('ex4_5', this, false)">A. continues to inspiring many people</button>
+          <button class="option-btn" onclick="checkMCQ('ex4_5', this, true)">B. continues to inspire many people</button>
+          <button class="option-btn" onclick="checkMCQ('ex4_5', this, false)">C. continues inspiring much people</button>
+          <button class="option-btn" onclick="checkMCQ('ex4_5', this, false)">D. continues to inspire much people</button>
+        </div>
+        <div class="explanation-box" id="exp_ex4_5">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> "...một trong những nghệ sĩ bán chạy nhất mọi thời đại và (5) _______ bằng tài năng và sự chăm chỉ."</div>
+          <div class="exp-step"><strong>2. Phân tích ngữ pháp:</strong> Cấu trúc "continue + to V" hoặc "continue + V-ing". Danh từ "people" là danh từ đếm được số nhiều nên bắt buộc dùng từ chỉ lượng "many" (many people).</div>
+          <div class="exp-step"><strong>3. Tại sao chọn B?</strong> "continues to inspire many people" chia đúng "to + V-bare" và dùng "many people".</div>
+          <div class="exp-step"><strong>4. Tại sao A, C, D sai?</strong> A dùng 'to inspiring' (sai sau 'to'); C & D dùng 'much people' (sai vì 'much' chỉ đi với N không đếm được). <br><button class="locate-btn" onclick="scrollToElement('s_ex4_14')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 5 QUESTIONS -->
+    <div class="exercise-content" id="exercise2">
+      <h2 class="passage-title">✏️ BÀI TẬP: EXERCISE 5 (CLOZE TEXT - VIETNAM IDOL)</h2>
+
+      <!-- Q1 -->
+      <div class="question-card" id="qCard_ex5_1">
+        <div class="question-text">Question 1. It is a singing (1) _______ where many talented singers come...</div>
+        <div class="options-grid" id="q_ex5_1_options">
+          <button class="option-btn" onclick="checkMCQ('ex5_1', this, true)">A. competition</button>
+          <button class="option-btn" onclick="checkMCQ('ex5_1', this, false)">B. location</button>
+          <button class="option-btn" onclick="checkMCQ('ex5_1', this, false)">C. talent</button>
+          <button class="option-btn" onclick="checkMCQ('ex5_1', this, false)">D. elimination</button>
+        </div>
+        <div class="explanation-box" id="exp_ex5_1">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> "Đây là một (1) _______ hát, nơi nhiều ca sĩ tài năng đến..."</div>
+          <div class="exp-step"><strong>2. Cụm danh từ ghép:</strong> "singing competition" (cuộc thi hát).</div>
+          <div class="exp-step"><strong>3. Tại sao chọn A?</strong> "competition" ghép với 'singing' tạo thành cụm từ chỉ cuộc thi ca hát.</div>
+          <div class="exp-step"><strong>4. Tại sao B, C, D sai?</strong> Location (vị trí/địa điểm); Talent (tài năng); Elimination (sự loại trừ) không ghép thành loại hình chương trình thi hát. <br><button class="locate-btn" onclick="scrollToElement('s_ex5_2')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="question-card" id="qCard_ex5_2">
+        <div class="question-text">Question 2. ...where many talented singers come (2) _______ their skills.</div>
+        <div class="options-grid" id="q_ex5_2_options">
+          <button class="option-btn" onclick="checkMCQ('ex5_2', this, false)">A. show</button>
+          <button class="option-btn" onclick="checkMCQ('ex5_2', this, false)">B. to showing</button>
+          <button class="option-btn" onclick="checkMCQ('ex5_2', this, true)">C. to show</button>
+          <button class="option-btn" onclick="checkMCQ('ex5_2', this, false)">D. showing</button>
+        </div>
+        <div class="explanation-box" id="exp_ex5_2">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> "...nơi nhiều ca sĩ tài năng đến (2) _______ kỹ năng của họ."</div>
+          <div class="exp-step"><strong>2. Phân tích ngữ pháp:</strong> Động từ chỉ mục đích chuyển động: "come + to V-bare" (đến để làm gì).</div>
+          <div class="exp-step"><strong>3. Tại sao chọn C?</strong> "to show" chỉ mục đích đến chương trình là để thể hiện kỹ năng.</div>
+          <div class="exp-step"><strong>4. Tại sao A, B, D sai?</strong> A (thiếu 'to'); B (to showing - sai dạng); D (showing - thiếu giới từ chỉ mục đích). <br><button class="locate-btn" onclick="scrollToElement('s_ex5_2')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="question-card" id="qCard_ex5_3">
+        <div class="question-text">Question 3. ...a chance to make their own album, (3) _______ many famous Vietnamese singers chose to start...</div>
+        <div class="options-grid" id="q_ex5_3_options">
+          <button class="option-btn" onclick="checkMCQ('ex5_3', this, false)">A. but</button>
+          <button class="option-btn" onclick="checkMCQ('ex5_3', this, false)">B. and</button>
+          <button class="option-btn" onclick="checkMCQ('ex5_3', this, false)">C. for</button>
+          <button class="option-btn" onclick="checkMCQ('ex5_3', this, true)">D. so</button>
+        </div>
+        <div class="explanation-box" id="exp_ex5_3">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> "...cơ hội ra album riêng, (3) _______ nhiều ca sĩ Việt Nam nổi tiếng đã chọn bắt đầu..."</div>
+          <div class="exp-step"><strong>2. Phân tích mối quan hệ logic:</strong> Vế trước nêu phần thưởng hấp dẫn (nguyên nhân), vế sau nêu kết quả nhiều ca sĩ chọn tham gia (kết quả) -> Dùng liên từ "so" (vì vậy).</div>
+          <div class="exp-step"><strong>3. Tại sao chọn D?</strong> "so" thể hiện mối quan hệ nguyên nhân - kết quả.</div>
+          <div class="exp-step"><strong>4. Tại sao A, B, C sai?</strong> But (nhưng - đối lập); And (và - bổ sung); For (vì - giải thích lý do đằng sau) không hợp logic câu này. <br><button class="locate-btn" onclick="scrollToElement('s_ex5_8')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="question-card" id="qCard_ex5_4">
+        <div class="question-text">Question 4. The show is full of excitement, with beautiful (4) _______ and touching stories...</div>
+        <div class="options-grid" id="q_ex5_4_options">
+          <button class="option-btn" onclick="checkMCQ('ex5_4', this, false)">A. perform</button>
+          <button class="option-btn" onclick="checkMCQ('ex5_4', this, true)">B. performances</button>
+          <button class="option-btn" onclick="checkMCQ('ex5_4', this, false)">C. performer</button>
+          <button class="option-btn" onclick="checkMCQ('ex5_4', this, false)">D. performing</button>
+        </div>
+        <div class="explanation-box" id="exp_ex5_4">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> "Chương trình tràn ngập sự hào hứng, với những (4) _______ đẹp mắt và câu chuyện cảm động..."</div>
+          <div class="exp-step"><strong>2. Phân tích ngữ pháp:</strong> Đứng sau tính từ "beautiful" và đi cặp song song với danh từ "touching stories" phải là một danh từ số nhiều -> "performances" (các màn trình diễn).</div>
+          <div class="exp-step"><strong>3. Tại sao chọn B?</strong> "performances" là danh từ số nhiều thích hợp chỉ các tiết mục trình diễn.</div>
+          <div class="exp-step"><strong>4. Tại sao A, C, D sai?</strong> A (động từ); C (danh từ chỉ người số ít - người biểu diễn); D (dạng V-ing). <br><button class="locate-btn" onclick="scrollToElement('s_ex5_9')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="question-card" id="qCard_ex5_5">
+        <div class="question-text">Question 5. ...makes everyone feel happy and proud (5) _______ the new talents in their country.</div>
+        <div class="options-grid" id="q_ex5_5_options">
+          <button class="option-btn" onclick="checkMCQ('ex5_5', this, false)">A. in</button>
+          <button class="option-btn" onclick="checkMCQ('ex5_5', this, true)">B. of</button>
+          <button class="option-btn" onclick="checkMCQ('ex5_5', this, false)">C. for</button>
+          <button class="option-btn" onclick="checkMCQ('ex5_5', this, false)">D. on</button>
+        </div>
+        <div class="explanation-box" id="exp_ex5_5">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> "...khiến ai cũng cảm thấy hạnh phúc và tự hào (5) _______ những tài năng mới của đất nước."</div>
+          <div class="exp-step"><strong>2. Cụm tính từ đi với giới từ cố định:</strong> "be proud of + N" (tự hào về cái gì/ai).</div>
+          <div class="exp-step"><strong>3. Tại sao chọn B?</strong> Giới từ "of" tạo thành cụm cố định "proud of".</div>
+          <div class="exp-step"><strong>4. Tại sao A, C, D sai?</strong> In, for, on không đi với tính từ 'proud' để mang nghĩa tự hào về điều gì. <br><button class="locate-btn" onclick="scrollToElement('s_ex5_11')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 6 QUESTIONS -->
+    <div class="exercise-content" id="exercise3">
+      <h2 class="passage-title">✏️ BÀI TẬP: EXERCISE 6 (READING COMPREHENSION - THE VOICE)</h2>
+
+      <!-- Q1 -->
+      <div class="question-card" id="qCard_ex6_1">
+        <div class="question-text">Question 1. What is the main idea of the passage?</div>
+        <div class="options-grid" id="q_ex6_1_options">
+          <button class="option-btn" onclick="checkMCQ('ex6_1', this, true)">A. Give information about a Vietnamese music show.</button>
+          <button class="option-btn" onclick="checkMCQ('ex6_1', this, false)">B. Debate some viewpoints with Vietnamese audience.</button>
+          <button class="option-btn" onclick="checkMCQ('ex6_1', this, false)">C. Eliminate "The Voice of Vietnam" due to its features.</button>
+          <button class="option-btn" onclick="checkMCQ('ex6_1', this, false)">D. Comment on some features of "The Voice of Vietnam"</button>
+        </div>
+        <div class="explanation-box" id="exp_ex6_1">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> Ý chính của đoạn văn là gì?</div>
+          <div class="exp-step"><strong>2. Phân tích nội dung:</strong> Bài đọc giới thiệu tổng quan về cuộc thi "The Voice of Vietnam", từ thể lệ, đặc điểm huấn luyện viên, vòng thi đến sự đón nhận của khán giả.</div>
+          <div class="exp-step"><strong>3. Tại sao chọn A?</strong> "Give information about a Vietnamese music show" thể hiện chính xác mục đích cung cấp thông tin bài đọc.</div>
+          <div class="exp-step"><strong>4. Tại sao B, C, D sai?</strong> Bài viết không tranh luận (debate), không loại bỏ (eliminate) hay đưa ra bình luận mang tính phê bình (comment/criticize). <br><button class="locate-btn" onclick="scrollToElement('s_ex6_1')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="question-card" id="qCard_ex6_2">
+        <div class="question-text">Question 2. The word "celebrity" in the 1st paragraph means "a _______".</div>
+        <div class="options-grid" id="q_ex6_2_options">
+          <button class="option-btn" onclick="checkMCQ('ex6_2', this, false)">A. rich person</button>
+          <button class="option-btn" onclick="checkMCQ('ex6_2', this, false)">B. notorious person</button>
+          <button class="option-btn" onclick="checkMCQ('ex6_2', this, true)">C. famous person</button>
+          <button class="option-btn" onclick="checkMCQ('ex6_2', this, false)">D. talented person</button>
+        </div>
+        <div class="explanation-box" id="exp_ex6_2">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> Từ "celebrity" ở đoạn 1 có nghĩa là "một _______".</div>
+          <div class="exp-step"><strong>2. Phân tích từ vựng:</strong> "Celebrity" là danh từ chỉ người nổi tiếng, đồng nghĩa với "famous person". Vế sau bài giải thích rõ: "...who are established singers".</div>
+          <div class="exp-step"><strong>3. Tại sao chọn C?</strong> "famous person" = người nổi tiếng.</div>
+          <div class="exp-step"><strong>4. Tại sao A, B, D sai?</strong> Rich person (người giàu); Notorious person (tai tiếng); Talented person (người tài năng - không nhấn mạnh yếu tố nổi tiếng). <br><button class="locate-btn" onclick="scrollToElement('s_ex6_4')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="question-card" id="qCard_ex6_3">
+        <div class="question-text">Question 3. What does the word "their" in the 2nd paragraph refer to?</div>
+        <div class="options-grid" id="q_ex6_3_options">
+          <button class="option-btn" onclick="checkMCQ('ex6_3', this, false)">A. performers'</button>
+          <button class="option-btn" onclick="checkMCQ('ex6_3', this, true)">B. audience's</button>
+          <button class="option-btn" onclick="checkMCQ('ex6_3', this, false)">C. talents'</button>
+          <button class="option-btn" onclick="checkMCQ('ex6_3', this, false)">D. singers'</button>
+        </div>
+        <div class="explanation-box" id="exp_ex6_3">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> Từ "their" ở đoạn 2 quy chiếu đến từ nào?</div>
+          <div class="exp-step"><strong>2. Phân tích ngữ cảnh:</strong> Trích câu: "Additionally, the <u>audience</u> need to vote for **their** favorite performers..." (Khán giả cần bình chọn cho các thí sinh biểu diễn yêu thích của **họ** [khán giả]).</div>
+          <div class="exp-step"><strong>3. Tại sao chọn B?</strong> "their" đại diện cho danh từ tập hợp "audience's".</div>
+          <div class="exp-step"><strong>4. Tại sao A, C, D sai?</strong> Performers, talents, singers không phải chủ thể thực hiện hành động 'vote' (bình chọn) ở câu này. <br><button class="locate-btn" onclick="scrollToElement('s_ex6_7')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="question-card" id="qCard_ex6_4">
+        <div class="question-text">Question 4. According to the passage, what makes "The Voice of Vietnam" special?</div>
+        <div class="options-grid" id="q_ex6_4_options">
+          <button class="option-btn" onclick="checkMCQ('ex6_4', this, false)">A. the coaches press a button to turn around when it finishes.</button>
+          <button class="option-btn" onclick="checkMCQ('ex6_4', this, true)">B. the coaches turn their backs to listen to the performances.</button>
+          <button class="option-btn" onclick="checkMCQ('ex6_4', this, false)">C. the coaches must try to get the singers to work for their team.</button>
+          <button class="option-btn" onclick="checkMCQ('ex6_4', this, false)">D. the coaches compete to win the competition and get the awards.</button>
+        </div>
+        <div class="explanation-box" id="exp_ex6_4">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> Theo đoạn văn, điều gì làm nên sự đặc biệt của "Giọng hát Việt"?</div>
+          <div class="exp-step"><strong>2. Dẫn chứng bài đọc:</strong> "The unique aspect of 'The Voice of Vietnam' is that the four celebrity coaches... listen to the performances with their backs turned."</div>
+          <div class="exp-step"><strong>3. Tại sao chọn B?</strong> "the coaches turn their backs to listen to the performances" khớp hoàn toàn với cụm "unique aspect" (điểm độc đáo/đặc biệt) trong bài.</div>
+          <div class="exp-step"><strong>4. Tại sao A, C, D sai?</strong> A sai vì bấm nút khi thích giọng hát chứ không phải lúc hát xong; C & D không phải điểm tạo nên sự đặc biệt nhất ("unique aspect"). <br><button class="locate-btn" onclick="scrollToElement('s_ex6_4')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="question-card" id="qCard_ex6_5">
+        <div class="question-text">Question 5. According to the passage, which of the following is NOT mentioned?</div>
+        <div class="options-grid" id="q_ex6_5_options">
+          <button class="option-btn" onclick="checkMCQ('ex6_5', this, false)">A. The show focuses on the singers' voices rather than their appearances.</button>
+          <button class="option-btn" onclick="checkMCQ('ex6_5', this, false)">B. The singers collaborate with their coaches on duets in the show.</button>
+          <button class="option-btn" onclick="checkMCQ('ex6_5', this, true)">C. The program brings joy and entertainment to international viewers.</button>
+          <button class="option-btn" onclick="checkMCQ('ex6_5', this, false)">D. The coaches have to compete to mentor the best vocal talents.</button>
+        </div>
+        <div class="explanation-box" id="exp_ex6_5">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> Theo đoạn văn, điều nào sau đây KHÔNG ĐƯỢC ĐỀ CẬP?</div>
+          <div class="exp-step"><strong>2. Phân tích đối chiếu:</strong> Đoạn cuối bài viết ghi: "The program brings joy and entertainment to viewers **across Vietnam**" (khán giả trên khắp Việt Nam), KHÔNG ĐỀ CẬP đến "international viewers" (khán giả quốc tế).</div>
+          <div class="exp-step"><strong>3. Tại sao chọn C?</strong> Việc mang lại giải trí cho "international viewers" hoàn toàn không được nhắc tới.</div>
+          <div class="exp-step"><strong>4. Tại sao A, B, D không chọn?</strong> A có ở câu 8; B có ở câu 10; D có ở câu 6. <br><button class="locate-btn" onclick="scrollToElement('s_ex6_13')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- EXERCISE 7 QUESTIONS -->
+    <div class="exercise-content" id="exercise4">
+      <h2 class="passage-title">✏️ BÀI TẬP: EXERCISE 7 (READING COMPREHENSION - SOCIAL MEDIA)</h2>
+
+      <!-- Q1 -->
+      <div class="question-card" id="qCard_ex7_1">
+        <div class="question-text">Question 1. What can be the best title for the passage?</div>
+        <div class="options-grid" id="q_ex7_1_options">
+          <button class="option-btn" onclick="checkMCQ('ex7_1', this, false)">A. The rise and decline of social media platforms.</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_1', this, false)">B. Music industry and its impact on music fans.</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_1', this, true)">C. How social media transforms the music industry.</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_1', this, false)">D. The challenges of being a musician today.</button>
+        </div>
+        <div class="explanation-box" id="exp_ex7_1">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> Tiêu đề nào phù hợp nhất cho đoạn văn?</div>
+          <div class="exp-step"><strong>2. Phân tích bố cục:</strong> Bài viết xuyên suốt phân tích ảnh hưởng của mạng xã hội tới cách kết nối người hâm mộ, cách phát hành nhạc trực tiếp, xu hướng mới và các thách thức đi kèm đối với ngành âm nhạc.</div>
+          <div class="exp-step"><strong>3. Tại sao chọn C?</strong> "How social media transforms the music industry" (Mạng xã hội biến đổi ngành âm nhạc như thế nào) bao quát trọn vẹn toàn bài.</div>
+          <div class="exp-step"><strong>4. Tại sao A, B, D sai?</strong> A nói về sự suy tàn (không có trong bài); B & D chỉ là một khía cạnh nhỏ. <br><button class="locate-btn" onclick="scrollToElement('s_ex7_1')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="question-card" id="qCard_ex7_2">
+        <div class="question-text">Question 2. The word "connections" in the 1st paragraph is closest in meaning to ______.</div>
+        <div class="options-grid" id="q_ex7_2_options">
+          <button class="option-btn" onclick="checkMCQ('ex7_2', this, false)">A. separations</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_2', this, false)">B. friendships</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_2', this, true)">C. relations</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_2', this, false)">D. bonds</button>
+        </div>
+        <div class="explanation-box" id="exp_ex7_2">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> Từ "connections" (sự kết nối/mối quan hệ) ở đoạn 1 gần nghĩa nhất với từ nào?</div>
+          <div class="exp-step"><strong>2. Phân tích từ vựng:</strong> "Connections" chỉ mối liên hệ/mối quan hệ tương tác giữa nghệ sĩ và fan, đồng nghĩa nhất với "relations".</div>
+          <div class="exp-step"><strong>3. Tại sao chọn C?</strong> "relations" = các mối quan hệ, sự kết nối.</div>
+          <div class="exp-step"><strong>4. Tại sao A, B, D sai?</strong> A (separations - sự chia rẽ) ngược nghĩa; B (friendships - tình bạn) không tổng quát bằng relations; D (bonds - sự gắn kết tình cảm sâu sắc). <br><button class="locate-btn" onclick="scrollToElement('s_ex7_3')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="question-card" id="qCard_ex7_3">
+        <div class="question-text">Question 3. The word "viral" in the 2nd paragraph is opposite in meaning to ______.</div>
+        <div class="options-grid" id="q_ex7_3_options">
+          <button class="option-btn" onclick="checkMCQ('ex7_3', this, true)">A. unnoticed</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_3', this, false)">B. popular</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_3', this, false)">C. temporary</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_3', this, false)">D. expensive</button>
+        </div>
+        <div class="explanation-box" id="exp_ex7_3">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> Từ "viral" (lan truyền/được chú ý rộng rãi) ở đoạn 2 TRÁI NGHĨA với từ nào?</div>
+          <div class="exp-step"><strong>2. Phân tích từ vựng:</strong> "Viral" nghĩa là vô cùng nổi tiếng, được hàng triệu người chú ý đến. Từ trái nghĩa là "unnoticed" (không ai chú ý/không ai biết đến).</div>
+          <div class="exp-step"><strong>3. Tại sao chọn A?</strong> "unnoticed" = không được chú ý/không ai biết.</div>
+          <div class="exp-step"><strong>4. Tại sao B, C, D sai?</strong> B (popular) là từ đồng nghĩa; C (temporary) & D (expensive) không đối lập với tính lan truyền. <br><button class="locate-btn" onclick="scrollToElement('s_ex7_4')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="question-card" id="qCard_ex7_4">
+        <div class="question-text">Question 4. Social media is important for musicians because it _______.</div>
+        <div class="options-grid" id="q_ex7_4_options">
+          <button class="option-btn" onclick="checkMCQ('ex7_4', this, true)">A. helps them avoid traditional gatekeepers like record labels.</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_4', this, false)">B. allows them to perform live in front of large audiences.</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_4', this, false)">C. provides a platform to create long videos for their fans.</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_4', this, false)">D. requires them to create content consistently.</button>
+        </div>
+        <div class="explanation-box" id="exp_ex7_4">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> Mạng xã hội quan trọng đối với các nhạc sĩ vì nó _______?</div>
+          <div class="exp-step"><strong>2. Dẫn chứng bài đọc:</strong> "This accessibility is crucial for independent musicians because it helps them distribute their music directly to listeners, which avoids traditional gatekeepers like record labels and radio stations."</div>
+          <div class="exp-step"><strong>3. Tại sao chọn A?</strong> "helps them avoid traditional gatekeepers like record labels" trùng khớp 100% với lý do nêu trong bài.</div>
+          <div class="exp-step"><strong>4. Tại sao B, C, D sai?</strong> C sai vì bài nói 'short videos'; D là thách thức chứ không phải lý do giải thích tầm quan trọng tích cực. <br><button class="locate-btn" onclick="scrollToElement('s_ex7_5')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q5 -->
+      <div class="question-card" id="qCard_ex7_5">
+        <div class="question-text">Question 5. The word "their" in the passage refers to _______.</div>
+        <div class="options-grid" id="q_ex7_5_options">
+          <button class="option-btn" onclick="checkMCQ('ex7_5', this, false)">A. platforms'</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_5', this, false)">B. listeners'</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_5', this, true)">C. musicians'</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_5', this, false)">D. labels'</button>
+        </div>
+        <div class="explanation-box" id="exp_ex7_5">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> Từ "their" (ở đoạn 2) quy chiếu đến từ nào?</div>
+          <div class="exp-step"><strong>2. Dẫn chứng bài đọc:</strong> "This accessibility is crucial for independent <u>musicians</u> because it helps them distribute their music... They can grow **their** fan base..."</div>
+          <div class="exp-step"><strong>3. Tại sao chọn C?</strong> "their" thay thế cho "independent musicians".</div>
+          <div class="exp-step"><strong>4. Tại sao A, B, D sai?</strong> Platforms, listeners, labels không phải là người sở hữu "fan base" (lượng fan) được đề cập. <br><button class="locate-btn" onclick="scrollToElement('s_ex7_6')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="question-card" id="qCard_ex7_6">
+        <div class="question-text">Question 6. According to the passage, which of the following is NOT true?</div>
+        <div class="options-grid" id="q_ex7_6_options">
+          <button class="option-btn" onclick="checkMCQ('ex7_6', this, false)">A. Social media can make unknown artists famous quickly.</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_6', this, false)">B. Social media lets musicians distribute their music directly.</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_6', this, true)">C. Social media platforms cannot be a challenge to artists.</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_6', this, false)">D. Social media helps fans interact directly with artists.</button>
+        </div>
+        <div class="explanation-box" id="exp_ex7_6">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> Theo đoạn văn, phát biểu nào sau đây KHÔNG ĐÚNG?</div>
+          <div class="exp-step"><strong>2. Dẫn chứng bài đọc:</strong> Đoạn 4 ghi rõ: "However, social media **can be challenging** for artists as they need to maintain an active online presence."</div>
+          <div class="exp-step"><strong>3. Tại sao chọn C?</strong> Đáp án C khẳng định "cannot be a challenge" (không thể là thách thức) là KHÔNG ĐÚNG so với bài đọc.</div>
+          <div class="exp-step"><strong>4. Tại sao A, B, D không chọn?</strong> A, B, D đều là những thông tin chính xác được nêu ở các đoạn 1, 2, 3. <br><button class="locate-btn" onclick="scrollToElement('s_ex7_9')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="question-card" id="qCard_ex7_7">
+        <div class="question-text">Question 7. It can be inferred from the passage that _______.</div>
+        <div class="options-grid" id="q_ex7_7_options">
+          <button class="option-btn" onclick="checkMCQ('ex7_7', this, false)">A. Social media has made the music industry less competitive.</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_7', this, true)">B. Social media requires musicians to balance creativity and content creation.</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_7', this, false)">C. Traditional media is more effective than social media for musicians.</button>
+          <button class="option-btn" onclick="checkMCQ('ex7_7', this, false)">D. Social media only benefits popular, well-known musicians.</button>
+        </div>
+        <div class="explanation-box" id="exp_ex7_7">
+          <div class="exp-step"><strong>1. Dịch câu hỏi:</strong> Có thể suy ra điều gì từ đoạn văn?</div>
+          <div class="exp-step"><strong>2. Phân tích suy luận:</strong> Đoạn cuối viết: "Balancing creativity with constant content creation is a new reality for musicians today." -> Nhạc sĩ bắt buộc phải cân bằng giữa sáng tạo nghệ thuật và việc sản xuất nội dung liên tục trên mạng xã hội.</div>
+          <div class="exp-step"><strong>3. Tại sao chọn B?</strong> B thể hiện suy luận chính xác về áp lực thực tế mới của nhạc sĩ hiện đại.</div>
+          <div class="exp-step"><strong>4. Tại sao A, C, D sai?</strong> A sai vì ngành nhạc trở nên fast-paced và cạnh tranh hơn; C & D sai lệch quan điểm ủng hộ independent musicians của tác giả. <br><button class="locate-btn" onclick="scrollToElement('s_ex7_10')">🖱️ Dẫn chứng đoạn văn</button></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit Section -->
+    <div class="submit-container">
+      <button class="btn-submit" onclick="submitExam()">NỘP BÀI TẬP 🚀</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal Kết quả -->
+<div class="modal-overlay" id="resultModal">
+  <div class="modal-card">
+    <h2 style="font-size: 1.8rem; color: var(--primary-pink-dark); margin-bottom: 10px;">🎉 KẾT QUẢ BÀI THI</h2>
+    <p style="font-size: 1.2rem; font-weight: 800; margin-bottom: 15px;" id="scoreText">Bạn đạt: 0 câu đúng</p>
+    <div id="feedbackText" style="font-size: 0.95rem; color: #4B5563; margin-bottom: 20px; font-weight: 700; line-height: 1.5;"></div>
+    <button class="btn-submit" onclick="closeModal()">ĐÓNG & XEM LẠI</button>
+  </div>
+</div>
+
+<script>
+  function switchPassage(passageNum) {
+    document.querySelectorAll('.tab-btn').forEach((btn, index) => {
+      if (index + 1 === passageNum) {
+        btn.classList.add('active');
+      } else {
+        btn.classList.remove('active');
+      }
+    });
+
+    document.querySelectorAll('.passage-content').forEach(el => el.classList.remove('active'));
+    document.getElementById(`passage${passageNum}`).classList.add('active');
+
+    document.querySelectorAll('.exercise-content').forEach(el => el.classList.remove('active'));
+    document.getElementById(`exercise${passageNum}`).classList.add('active');
+  }
+
+  // Web Audio API
+  const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  
+  function playSound(type) {
+    if (audioCtx.state === 'suspended') audioCtx.resume();
+    const osc = audioCtx.createOscillator();
+    const gain = audioCtx.createGain();
+    osc.connect(gain);
+    gain.connect(audioCtx.destination);
+
+    if (type === 'correct') {
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(523.25, audioCtx.currentTime);
+      osc.frequency.setValueAtTime(659.25, audioCtx.currentTime + 0.1);
+      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.3);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.3);
+    } else {
+      osc.type = 'sawtooth';
+      osc.frequency.setValueAtTime(220, audioCtx.currentTime);
+      osc.frequency.setValueAtTime(130.81, audioCtx.currentTime + 0.15);
+      gain.gain.setValueAtTime(0.3, audioCtx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + 0.4);
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.4);
+    }
+  }
+
+  // Timer Variables
+  let timeLeft = 1200; 
+  let timerInterval = null;
+  let isRunning = false;
+  let answeredQuestions = new Set();
+  let score = 0;
+
+  function updateTimerDisplay() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    document.getElementById('timerDisplay').innerText = 
+      `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+  }
+
+  function toggleTimer() {
+    const btn = document.getElementById('timerToggleBtn');
+    if (!isRunning) {
+      isRunning = true;
+      btn.innerText = "TẠM DỪNG";
+      timerInterval = setInterval(() => {
+        if (timeLeft > 0) {
+          timeLeft--;
+          updateTimerDisplay();
+        } else {
+          clearInterval(timerInterval);
+          alert("Đã hết giờ làm bài, vui lòng nộp bài nhé!");
+          disableInputs();
+        }
+      }, 1000);
+    } else {
+      isRunning = false;
+      btn.innerText = "TIẾP TỤC";
+      clearInterval(timerInterval);
+    }
+  }
+
+  function disableInputs() {
+    document.querySelectorAll('button.option-btn').forEach(el => el.disabled = true);
+  }
+
+  function updateProgress() {
+    const totalCards = document.querySelectorAll('.question-card').length;
+    const percentage = (answeredQuestions.size / totalCards) * 100;
+    document.getElementById('progressBar').style.width = `${percentage}%`;
+  }
+
+  function toggleTranslation(id) {
+    const el = document.getElementById(id);
+    el.style.display = (el.style.display === 'block') ? 'none' : 'block';
+  }
+
+  function checkMCQ(qId, btn, isCorrect) {
+    if (answeredQuestions.has(qId)) return;
+
+    const container = document.getElementById(`q_${qId}_options`);
+    const exp = document.getElementById(`exp_${qId}`);
+    const buttons = container.querySelectorAll('.option-btn');
+    
+    buttons.forEach(b => b.disabled = true);
+
+    if (isCorrect) {
+      btn.classList.add('correct');
+      playSound('correct');
+      confetti({ particleCount: 45, spread: 60, origin: { y: 0.8 } });
+      score++;
+    } else {
+      btn.classList.add('wrong');
+      playSound('wrong');
+      buttons.forEach(b => {
+        if(b.getAttribute('onclick').includes('true')) b.classList.add('correct');
+      });
+    }
+
+    if(exp) exp.style.display = "block";
+    answeredQuestions.add(qId);
+    updateProgress();
+  }
+
+  function scrollToElement(id) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      el.classList.add('target-highlight');
+      setTimeout(() => el.classList.remove('target-highlight'), 2000);
+    }
+  }
+
+  document.addEventListener('mouseup', function() {
+    const selection = window.getSelection();
+    if (!selection.isCollapsed) {
+      const range = selection.getRangeAt(0);
+      const span = document.createElement('span');
+      span.className = 'highlighted';
+      range.surroundContents(span);
+      selection.removeAllRanges();
+    }
+  });
+
+  function submitExam() {
+    clearInterval(timerInterval);
+    const modal = document.getElementById('resultModal');
+    const scoreText = document.getElementById('scoreText');
+    const feedbackText = document.getElementById('feedbackText');
+    
+    const totalAnswered = answeredQuestions.size || 1;
+    const percentage = Math.round((score / totalAnswered) * 100);
+    scoreText.innerText = `Bạn đạt: ${score}/${totalAnswered} câu đã làm (${percentage}%)`;
+
+    if (percentage < 50) {
+      feedbackText.innerText = "❤️ Ms Lê Hằng: Điểm lần này chưa cao lắm, con cố gắng đọc kỹ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau!";
+    } else if (percentage >= 50 && percentage <= 80) {
+      feedbackText.innerText = "👏 Ms Lê Hằng: Con đã có tiến bộ khá ổn rồi, con cố gắng đọc kỹ giải thích đáp án và làm lại nha. Cô tin con sẽ làm tốt hơn ở lần sau!";
+    } else if (percentage >= 90) {
+      feedbackText.innerText = "🌟 Ms Lê Hằng: Làm tốt lắm, con cố gắng rinh điểm 10 ở lần sau nha!";
+      confetti({ particleCount: 150, spread: 100, origin: { y: 0.6 } });
+    } else {
+      feedbackText.innerText = "👍 Con làm khá tốt! Hãy xem kỹ lại các câu sai ở phần giải thích nhé!";
+    }
+
+    modal.style.display = "flex";
+  }
+
+  function closeModal() {
+    document.getElementById('resultModal').style.display = "none";
+  }
+</script>
+</body>
+</html>
